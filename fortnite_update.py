@@ -21,7 +21,7 @@ try:
 
 except ModuleNotFoundError as e:
     print(e)
-    print(Fore.RED + f'[-] ' + Fore.RESET + 'Failed to import 1 or more modules. Run "INSTALL PACKAGES.bat')
+    print(Fore.RED + f'[FEHLER] ' + Fore.RESET + 'Fehler Beim Starten des Bots Bitte Starte "INSTALL PACKAGES.bat')
     exit()
 
 os.system('cls||clear')
@@ -40,7 +40,7 @@ print(intro)
 response = requests.get("https://benbot.app/api/v1/status")
 patch = response.json()["currentFortniteVersion"]
 
-print(f'Fortnite Lobby Bot Is Loading....')
+print(f'\n German Fn Bot Loading\n')
 
 def lenPartyMembers():
     members = client.party.members
@@ -56,7 +56,7 @@ def lenFriends():
     return len(friends)
 
 def getNewSkins():
-    r = requests.get('https://benbotfn.tk/api/v1/files/added')
+    r = requests.get('https://benbot.app/api/v1/files/added')
 
     response = r.json()
 
@@ -68,7 +68,7 @@ def getNewSkins():
     return cids
 
 def getNewEmotes():
-    r = requests.get('https://benbotfn.tk/api/v1/files/added')
+    r = requests.get('https://benbot.app/api/v1/files/added')
 
     response = r.json()
 
@@ -96,7 +96,7 @@ with open('config.json') as f:
     try:
         data = json.load(f)
     except json.decoder.JSONDecodeError as e:
-        print(Fore.RED + ' [ERROR] ' + Fore.RESET + "There was an error in one of the bot's files! (config.json). If you have problems trying to fix it, join the discord support server for help - https://discord.gg/88r2ShB")
+        print(Fore.RED + ' [FEHLER] ' + Fore.RESET + "In einer der Bot-Dateien ist ein Fehler aufgetreten! (config.json). Wenn Sie Probleme haben, das Problem zu beheben, treten Sie dem Discord-Supportserver bei, um Hilfe zu erhalten - https://discord.gg/88r2ShB")
         print(Fore.LIGHTRED_EX + f'\n {e}')
         exit(1)
 
@@ -104,7 +104,7 @@ with open('info.json') as f:
     try:
         info = json.load(f)
     except json.decoder.JSONDecodeError as e:
-        print(Fore.RED + ' [ERROR] ' + Fore.RESET + "There was an error in one of the bot's files! (info.json) If you have problems trying to fix it, join the discord support server for help - https://discord.gg/88r2ShB")
+        print(Fore.RED + ' [FEHLER] ' + Fore.RESET + "In einer der Bot-Dateien ist ein Fehler aufgetreten! (info.json) Wenn Sie Probleme haben, das Problem zu beheben, treten Sie dem Discord-Supportserver bei, um Hilfe zu erhalten - https://discord.gg/88r2ShB")
         print(Fore.LIGHTRED_EX + f'\n {e}')
         exit(1)
 
@@ -140,7 +140,7 @@ async def event_device_auth_generate(details, email):
 async def event_ready():
     os.system('cls||clear')
     print(intro)
-    print(Fore.BLUE + ' [German Bot] ' + Fore.RESET + 'Dein Lobby Bot Ist Jetzt Online ' + Fore.LIGHTBLUE_EX + f'{client.user.display_name}')
+    print(Fore.GREEN + ' [Success] ' + Fore.RESET + 'test ' + Fore.LIGHTBLUE_EX + f'{client.user.display_name}')
 
     member = client.party.me
 
@@ -178,15 +178,15 @@ async def event_party_invite(invite):
     if data['joinoninvite'].lower() == 'true':
         try:
             await invite.accept()
-            print(Fore.GREEN + ' [Console] ' + Fore.RESET + f'Akzeptierte Partyeinladung von {invite.sender.display_name}')
+            print(Fore.BLUE + ' [Console] ' + Fore.RESET + f'Partyeinladung akzeptiert von {invite.sender.display_name}')
         except Exception:
             pass
     elif data['joinoninvite'].lower() == 'false':
         if invite.sender.id in info['FullAccess']:
             await invite.accept()
-            print(Fore.GREEN + ' [Console] ' + Fore.RESET + 'Akzeptierte Partyeinladung von ' + Fore.LIGHTBLUE_EX + f'{invite.sender.display_name}')
+            print(Fore.BLUE + ' [Console] ' + Fore.RESET + 'Partyeinladung akzeptiert von ' + Fore.LIGHTBLUE_EX + f'{invite.sender.display_name}')
         else:
-            print(Fore.GREEN + ' [Console] ' + Fore.RESET + f'Partyeinladung von nie angenommen von {invite.sender.display_name}')
+            print(Fore.RED + ' [Console] ' + Fore.RESET + f'Partyeinladung von nie angenommen von {invite.sender.display_name}')
 
 
 @client.command()
@@ -207,14 +207,14 @@ async def event_friend_request(request):
     if data['friendaccept'].lower() == 'true':
         try:
             await request.accept()
-            print(f' [Console] Akzeptierte Freundschaftsanfrage von {request.display_name}' + Fore.LIGHTBLACK_EX + f' ({lenFriends()})')
+            print(f' [Console] Akzeptierte Freundschaftsanfrage von {request.display_name}' + Fore.LIGHTGREEN_EX + f' ({lenFriends()})')
         except Exception:
             pass
     elif data['friendaccept'].lower() == 'false':
         if request.id in info['FullAccess']:
             try:
                 await request.accept()
-                print(Fore.GREEN + ' [Console] ' + Fore.RESET + 'Akzeptierte Freundschaftsanfrage von ' + Fore.LIGHTGREEN_EX + f'{request.display_name}' + Fore.LIGHTBLACK_EX + f' ({lenFriends()})')
+                print(Fore.BLUE + ' [Console] ' + Fore.RESET + 'Akzeptierte Freundschaftsanfrage von ' + Fore.LIGHTGREEN_EX + f'{request.display_name}' + Fore.LIGHTBLUE_EX + f' ({lenFriends()})')
             except Exception:
                 pass
         else:
@@ -226,9 +226,9 @@ async def event_party_member_join(member):
     if client.user.display_name != member.display_name:
         try:
             if client.user.id in info['FullAccess']:
-                print(Fore.LIGHTRED_EX + f' [Console] {member.display_name}' + Fore.RESET + 'ist der Lobby beigetreten!.')
+                print(Fore.LIGHTBLUE_EX + f' [Lobby] {member.display_name}' + Fore.RESET + 'ist der Lobby beigetreten.')
             else:
-                print(f' [Console] {member.display_name} ist der Lobby beigetreten!.' + Fore.LIGHTBLUE_EX + f' ({lenPartyMembers()})')
+                print(f' [Lobby] {member.display_name} ist der Lobby beigetreten.' + Fore.LIGHTGREEN_EX + f' ({lenPartyMembers()})')
         except fortnitepy.HTTPException:
             pass
 
@@ -238,9 +238,9 @@ async def event_party_member_leave(member):
     if client.user.display_name != member.display_name:
         try:
             if client.user.id in info['FullAccess']:
-                print(Fore.LIGHTGREEN_EX + f' [Console] {member.display_name}' + Fore.RESET + 'hat die Lobby verlassen.')
+                print(Fore.LIGHTBLUE_EX + f' [Lobby] {member.display_name}' + Fore.RESET + 'hat die Lobby verlassen.')
             else:
-                print(f' [Console] {member.display_name} hat die Lobby verlassen.' + Fore.LIGHTBLUE_EX + f' ({lenPartyMembers()})')
+                print(f' [Lobby] {member.display_name} hat die Lobby verlassen.' + Fore.LIGHTGREEN_EX + f' ({lenPartyMembers()})')
         except fortnitepy.HTTPException:
             pass
 
@@ -260,7 +260,7 @@ async def event_friend_message(message):
         name = Fore.LIGHTMAGENTA_EX + f'{message.author.display_name}'
     else:
         name = Fore.RESET + f'{message.author.display_name}'
-    print(Fore.LIGHTMAGENTA_EX + ' [Flüster Chat] ' + f'{name}' + Fore.RESET + f': {message.content}')
+    print(Fore.LIGHTMAGENTA_EX + ' [Flüstern] ' + f'{name}' + Fore.RESET + f': {message.content}')
 
     if message.content.upper().startswith('CID_'):
         await client.party.me.set_outfit(asset=message.content.upper())
@@ -1410,7 +1410,7 @@ async def add(ctx, *, member = None):
             else:
                 await client.add_friend(user.id)
                 await ctx.send(f'Sent a friend request to {user.display_name}')
-                print(Fore.GREEN + ' [+] ' + Fore.RESET + 'Senden Sie eine Freundschaftsanfrage an: ' + Fore.LIGHTBLACK_EX + f'{user.display_name}')
+                print(Fore.GREEN + ' [+] ' + Fore.RESET + 'Sent a friend request to: ' + Fore.LIGHTBLACK_EX + f'{user.display_name}')
 
         except fortnitepy.HTTPException:
             await ctx.send("There was a problem trying to add this friend.")
@@ -1502,7 +1502,7 @@ async def friends(ctx):
         await ctx.send(f"Client has: {len(onlineFriends)} friends online and {len(offlineFriends)} friends offline")
         await ctx.send("(Check cmd for full list of friends)")
 
-        print(" [+] Friends List: " + Fore.GREEN + f'{len(onlineFriends)} Online ' + Fore.RESET + "/" + Fore.LIGHTBLACK_EX + f' {len(offlineFriends)} Offline ' + Fore.RESET + "/" + Fore.LIGHTWHITE_EX + f' {len(onlineFriends) + len(offlineFriends)} Total')
+        print(" [FRIENDS] Friends List: " + Fore.GREEN + f'{len(onlineFriends)} Online ' + Fore.RESET + "/" + Fore.LIGHTBLUE_EX + f' {len(offlineFriends)} Offline ' + Fore.RESET + "/" + Fore.LIGHTGREEN_EX + f' {len(onlineFriends) + len(offlineFriends)} Total')
         
         for x in onlineFriends:
             if x is not None:
@@ -1549,7 +1549,7 @@ async def id(ctx, *, user = None):
 
     try:
         await ctx.send(f"{user}'s Epic ID is: {user.id}")
-        print(Fore.GREEN + ' [Console] ' + Fore.RESET + f"{user}'s Epic ID ist: " + Fore.LIGHTBLACK_EX + f'{user.id}')
+        print(Fore.GREEN + ' [+] ' + Fore.RESET + f"{user}'s Epic ID is: " + Fore.LIGHTBLACK_EX + f'{user.id}')
     except AttributeError:
         await ctx.send("I couldn't find an Epic account with that name.")
 
@@ -1592,7 +1592,7 @@ async def admin(ctx, setting = None, *, user = None):
                     with open('info.json', 'w') as f:
                         json.dump(info, f, indent=4)
                         await ctx.send(f"Correct. Added {user.display_name} as an admin.")
-                        print(Fore.GREEN + " [Console] " + Fore.LIGHTGREEN_EX + user.display_name + Fore.RESET + " wurde als admin hinzugefügt.")
+                        print(Fore.GREEN + " [+] " + Fore.LIGHTGREEN_EX + user.display_name + Fore.RESET + " was added as an admin.")
                 else:
                     await ctx.send("Incorrect Password.")
 
@@ -1608,7 +1608,7 @@ async def admin(ctx, setting = None, *, user = None):
                     with open('info.json', 'w') as f:
                         json.dump(info, f, indent=4)
                         await ctx.send("You were removed as an admin.")
-                        print(Fore.BLUE + " [Console] " + Fore.LIGHTBLUE_EX + user.display_name + Fore.RESET + " wurde als admin entfernt.")
+                        print(Fore.BLUE + " [+] " + Fore.LIGHTBLUE_EX + user.display_name + Fore.RESET + " was removed as an admin.")
                 elif (content.lower() == 'no') or (content.lower() == 'n'):
                     await ctx.send("You were kept as admin.")
                 else:
@@ -1643,7 +1643,7 @@ async def admin(ctx, setting = None, *, user = None):
                     with open('info.json', 'w') as f:
                         json.dump(info, f, indent=4)
                         await ctx.send(f"Correct. Added {user.display_name} as an admin.")
-                        print(Fore.GREEN + " [Console] " + Fore.LIGHTGREEN_EX + user.display_name + Fore.RESET + " wurde als admin hinzugefügt.")
+                        print(Fore.GREEN + " [+] " + Fore.LIGHTGREEN_EX + user.display_name + Fore.RESET + " was added as an admin.")
                 else:
                     await ctx.send("That user is already an admin.")
             else:
@@ -1659,7 +1659,7 @@ async def admin(ctx, setting = None, *, user = None):
                         with open('info.json', 'w') as f:
                             json.dump(info, f, indent=4)
                             await ctx.send(f"{user.display_name} was removed as an admin.")
-                            print(Fore.RED + " [Console] " + Fore.LIGHTBLUE_EX + user.display_name + Fore.RESET + " wurde als admin entfernt.")
+                            print(Fore.BLUE + " [+] " + Fore.LIGHTBLUE_EX + user.display_name + Fore.RESET + " was removed as an admin.")
                     else:
                         await ctx.send("Incorrect Password.")
                 else:
@@ -1677,7 +1677,9 @@ if (data['email'] and data['password']) and (data['email'] != "" and data['passw
         print(Fore.RED + ' [FEHLER] ' + Fore.RESET + f'{e}')
     except ModuleNotFoundError:
         print(e)
-        print(Fore.RED + f'[FEHLER] ' + Fore.RESET + 'Fehler beim Importieren von 1 oder mehreren Modulen. Öffne "INSTALL PACKAGES.bat')
+        print(Fore.RED + f'[FEHLER] ' + Fore.RESET + 'Bitte Starte "INSTALL PACKAGES.bat')
         exit()
 else:
-    print(Fore.RED + ' [FEHLER] ' + Fore.RESET + 'Kann sich nicht anmelden, da keine Anmeldeinformationen für Konten angegeben wurden.')
+    print(Fore.RED + ' [FEHLER] ' + Fore.RESET + 'Du hast bei config.jason nicht deine fortnite acc daten eingegeben.')
+
+#PlaceHolder
