@@ -140,7 +140,7 @@ async def event_device_auth_generate(details, email):
 async def event_ready():
     os.system('cls||clear')
     print(intro)
-    print(Fore.GREEN + ' [Success] ' + Fore.RESET + 'Dein Lobby Bot ist Online ' + Fore.LIGHTBLUE_EX + f'{client.user.display_name}')
+    print(Fore.GREEN + ' [Success] ' + Fore.RESET + 'test ' + Fore.LIGHTBLUE_EX + f'{client.user.display_name}')
 
     member = client.party.me
 
